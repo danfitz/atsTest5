@@ -5,7 +5,11 @@ const Immutable = require('immutable');
 // e.g. in the fromShape, we have cat and snake with 'long' == true
 // so in the toShape, we want long: [ 'cat', 'snake' ]
 const transform = (fromShape) => {
-  return fromShape;
+  const toShape = fromShape.get("dog").map((bool, attr) => {
+    return fromShape.filter(animal => animal.get(attr)).map((v, k) => k).toList();
+  });
+
+  return toShape;
 };
 
 const fromShape = Immutable.fromJS({
