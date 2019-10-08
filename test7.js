@@ -12,19 +12,20 @@ const transform = (fromShape) => {
 
   // For each number in fromShape...
   fromShape.forEach(num => {
-    // If it's a multiple of 3 and 5, add number to "fizzbuzz" List
+    // Set target key based on whether number is a multiple of 3, 5, both, or neither
+    let targetKey;
     if (num % 3 === 0 && num % 5 === 0) {
-      toShape = toShape.update("fizzbuzz", nums => nums.push(num));
-    // If it's a multiple of 3 only, add number to "fizz" List
+      targetKey = "fizzbuzz";
     } else if (num % 3 === 0) {
-      toShape = toShape.update("fizz", nums => nums.push(num));
-    // If it's a multiple of 5 only, add number to "buzz" List
+      targetKey = "fizz";
     } else if (num % 5 === 0) {
-      toShape = toShape.update("buzz", nums => nums.push(num));
-    // Otherwise, number goes into "other" List
+      targetKey = "buzz";
     } else {
-      toShape = toShape.update("other", nums => nums.push(num));
+      targetKey = "other";
     };
+
+    // Add number to List at target key
+    toShape = toShape.update(targetKey, nums => nums.push(num));
   });
 
   return toShape;
