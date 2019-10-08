@@ -6,7 +6,19 @@ const Immutable = require('immutable');
 // similarly, there are 2 elements with 'legs' == 4 (cat and dog), 1 with 'legs' == 2 (bird) and 1 with 'legs' == 0 (snake). 
 // so we want legs: { 0: 1, 2: 1, 4: 2}
 const transform = (fromShape) => {
-  return fromShape;
+  let toShape = Immutable.Map();
+
+  fromShape.forEach((obj, i) => {
+    obj.forEach((val, j) => {
+      if (toShape.hasIn([j, val])) {
+        toShape = toShape.updateIn([j, val], x => x + 1);
+      } else {
+        toShape = toShape.setIn([j, val], 1);
+      };
+    })
+  });
+
+  return toShape;
 };
 
 const fromShape = Immutable.fromJS({

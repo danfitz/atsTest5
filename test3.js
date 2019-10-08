@@ -5,8 +5,16 @@ const Immutable = require('immutable');
 // e.g. in the fromShape, we have cat and snake with 'long' == true
 // so in the toShape, we want long: [ 'cat', 'snake' ]
 const transform = (fromShape) => {
-  const toShape = fromShape.get("dog").map((bool, attr) => {
-    return fromShape.filter(animal => animal.get(attr)).map((v, k) => k).toList();
+  let toShape = Immutable.Map();
+
+  fromShape.forEach((obj, i) => {
+    obj.forEach((bool, j) => {
+      if (toShape.has(j)) {
+        toShape = bool ? toShape.set(j, toShape.get(j).push(i)) : toShape;
+      } else {
+        toShape = bool ? toShape.set(j, Immutable.List([i])) : toShape;
+      };
+    })
   });
 
   return toShape;
