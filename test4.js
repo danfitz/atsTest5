@@ -6,14 +6,20 @@ const Immutable = require('immutable');
 // similarly, there are 2 elements with 'legs' == 4 (cat and dog), 1 with 'legs' == 2 (bird) and 1 with 'legs' == 0 (snake). 
 // so we want legs: { 0: 1, 2: 1, 4: 2}
 const transform = (fromShape) => {
+  // Create empty Map
   let toShape = Immutable.Map();
 
-  fromShape.forEach((obj, i) => {
-    obj.forEach((val, j) => {
-      if (toShape.hasIn([j, val])) {
-        toShape = toShape.updateIn([j, val], x => x + 1);
+  fromShape.forEach((animalAttrs, animalName) => {
+    // For each animal attribute in each animal...
+    animalAttrs.forEach((val, attr) => {
+      // If toShape already has that attribute value nested inside...
+      if (toShape.hasIn([attr, val])) {
+        // Add 1 to that nested attribute value (tallying the number of occurrences)
+        toShape = toShape.updateIn([attr, val], x => x + 1);
+      // Otherwise, that attribute value isn't nested in toShape yet, so...
       } else {
-        toShape = toShape.setIn([j, val], 1);
+        // Add that nested attribute value inside toShape with a starting tally of 1
+        toShape = toShape.setIn([attr, val], 1);
       };
     })
   });

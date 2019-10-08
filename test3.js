@@ -5,14 +5,20 @@ const Immutable = require('immutable');
 // e.g. in the fromShape, we have cat and snake with 'long' == true
 // so in the toShape, we want long: [ 'cat', 'snake' ]
 const transform = (fromShape) => {
+  // Creates empty Map
   let toShape = Immutable.Map();
 
-  fromShape.forEach((obj, i) => {
-    obj.forEach((bool, j) => {
-      if (toShape.has(j)) {
-        toShape = bool ? toShape.set(j, toShape.get(j).push(i)) : toShape;
+  fromShape.forEach((animalAttrs, animalName) => {
+    // For each attribute in each animal...
+    animalAttrs.forEach((bool, attr) => {
+      // If toShape has that attribute as a key...
+      if (toShape.has(attr)) {
+        // If that attribute is true, add that animal to the List of animals with that attribute
+        bool ? toShape = toShape.set(attr, toShape.get(attr).push(animalName)) : null;
+      // Otherwise the attribute hasn't been added to the toShape yet...
       } else {
-        toShape = bool ? toShape.set(j, Immutable.List([i])) : toShape;
+        // So if attribute is true, create a new List with animal as the first item
+        bool ? toShape = toShape.set(attr, Immutable.List([animalName])) : null;
       };
     })
   });
