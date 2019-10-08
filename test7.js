@@ -13,15 +13,12 @@ const transform = (fromShape) => {
   // For each number in fromShape...
   fromShape.forEach(num => {
     // Set target key based on whether number is a multiple of 3, 5, both, or neither
-    let targetKey;
-    if (num % 3 === 0 && num % 5 === 0) {
-      targetKey = "fizzbuzz";
-    } else if (num % 3 === 0) {
-      targetKey = "fizz";
-    } else if (num % 5 === 0) {
-      targetKey = "buzz";
-    } else {
+    let targetKey = "";
+    if (num % 3 !== 0 && num % 5 !== 0) {
       targetKey = "other";
+    } else {
+      num % 3 === 0 ? targetKey += "fizz" : null;
+      num % 5 === 0 ? targetKey += "buzz" : null;
     };
 
     // Add number to List at target key
